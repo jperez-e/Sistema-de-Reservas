@@ -20,6 +20,6 @@ export class ReservaService {
   }
 
   cancelReserva(id: number): Observable<void> {
-    return this.http.patch<void>(`${this.apiUrl}/${id}/cancelar`, {});
+    return this.http.delete<void>(`${this.apiUrl}/${id}/cancelar`, {});
   }
 }
