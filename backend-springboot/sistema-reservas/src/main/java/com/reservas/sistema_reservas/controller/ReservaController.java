@@ -14,8 +14,9 @@ import java.util.List;
  * REST controller for managing reservations.
  * Exposes endpoints for listing, creating, and canceling reservations.
  */
+@CrossOrigin(origins = "http://localhost:4200") // Allow CORS for Angular frontend
 @RestController
-@RequestMapping("/reservas")
+@RequestMapping("/api/reservas")
 public class ReservaController {
 
     private final ReservaService reservaService;
@@ -80,5 +81,18 @@ public class ReservaController {
             }
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
+    }
+
+    /**
+     * Cancels a reservation by its ID using a PATCH endpoint.
+     * Mirrors the frontend expectation of /api/reservas/{id}/cancelar.
+     *
+     * @param id the ID of the reservation to cancel
+     * @return a ResponseEntity with HTTP 204 No Content status if successful
+     * @throws ReservaException if the reservation is not found or already cancelled
+     */
+    @PatchMapping("/{id}/cancelar")
+    public ResponseEntity<?> cancelReservaPatch(@PathVariable Long id) {
+        return cancelReserva(id);
     }
 }
