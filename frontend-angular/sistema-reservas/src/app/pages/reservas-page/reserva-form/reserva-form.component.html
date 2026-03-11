@@ -1,0 +1,73 @@
+<section class="reserva-form">
+  <header class="reserva-form__header">
+    <h2>Nueva reserva</h2>
+    <p>Planifica tu consultoría de software e infraestructura.</p>
+  </header>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label class="field">
+      <span>Nombre del cliente</span>
+      <input
+        type="text"
+        formControlName="nombreCliente"
+        placeholder="Nombre completo"
+        [class.field__input--invalid]="nombreCliente.invalid && (nombreCliente.touched || nombreCliente.dirty)" />
+    </label>
+    @if (nombreCliente.invalid && (nombreCliente.touched || nombreCliente.dirty)) {
+      <span class="field__error">El nombre es obligatorio.</span>
+    }
+
+    <div class="field-grid">
+      <label class="field">
+        <span>Fecha</span>
+        <input
+          type="date"
+          formControlName="fecha"
+          [class.field__input--invalid]="fecha.invalid && (fecha.touched || fecha.dirty)" />
+      </label>
+      @if (fecha.invalid && (fecha.touched || fecha.dirty)) {
+        <span class="field__error">La fecha es obligatoria.</span>
+      }
+
+      <label class="field">
+        <span>Hora</span>
+        <input
+          type="time"
+          formControlName="hora"
+          [class.field__input--invalid]="hora.invalid && (hora.touched || hora.dirty)" />
+      </label>
+      @if (hora.invalid && (hora.touched || hora.dirty)) {
+        <span class="field__error">La hora es obligatoria.</span>
+      }
+    </div>
+
+    <label class="field">
+      <span>Servicio</span>
+      <select
+        formControlName="servicio"
+        [class.field__input--invalid]="servicio.invalid && (servicio.touched || servicio.dirty)">
+        <option value="" disabled>Selecciona un servicio</option>
+        @for (opcion of servicios(); track opcion) {
+          <option [value]="opcion">{{ opcion }}</option>
+        }
+      </select>
+    </label>
+    @if (servicio.invalid && (servicio.touched || servicio.dirty)) {
+      <span class="field__error">El servicio es obligatorio.</span>
+    }
+
+    <button type="submit" class="primary-button" [disabled]="form.invalid || saving()">
+      @if (saving()) {
+        Guardando...
+      } @else {
+        Crear reserva
+      }
+    </button>
+  </form>
+
+  <app-toast
+    [message]="errorMessage()"
+    [visible]="showToast()"
+    (dismiss)="dismissToast()">
+  </app-toast>
+</section>

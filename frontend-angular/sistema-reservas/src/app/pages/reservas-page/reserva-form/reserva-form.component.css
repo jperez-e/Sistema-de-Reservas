@@ -1,0 +1,76 @@
+.reserva-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+}
+
+.reserva-form__header h2 {
+  margin: 0 0 4px;
+  font-size: 22px;
+}
+
+.reserva-form__header p {
+  margin: 0;
+  color: #475569;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+.field input,
+.field select {
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5f5;
+  font: inherit;
+}
+
+.field__input--invalid {
+  border-color: #dc2626;
+}
+
+.field__error {
+  color: #b91c1c;
+  font-size: 12px;
+}
+
+.field-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.primary-button {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  background-color: #1f3b5c;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.primary-button:focus-visible {
+  outline: 3px solid #ffb703;
+  outline-offset: 2px;
+}

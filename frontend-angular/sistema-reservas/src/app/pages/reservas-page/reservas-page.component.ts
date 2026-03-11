@@ -4,9 +4,11 @@ import { catchError, finalize, of, switchMap, tap } from 'rxjs';
 
 import { Reserva } from '../../models/reserva.interface';
 import { ReservaService } from '../../services/reserva.service';
+import { ReservaFormComponent } from './reserva-form/reserva-form.component';
 
 @Component({
   selector: 'app-reservas-page',
+  imports: [ReservaFormComponent],
   templateUrl: './reservas-page.component.html',
   styleUrl: './reservas-page.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

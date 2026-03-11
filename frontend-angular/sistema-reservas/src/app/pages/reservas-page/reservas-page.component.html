@@ -6,6 +6,8 @@
     </button>
   </header>
 
+  <app-reserva-form (created)="loadReservas()"></app-reserva-form>
+
   @if (loading()) {
     <p class="status" aria-live="polite">Cargando reservas...</p>
   }

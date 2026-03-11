@@ -6,3 +6,5 @@ export interface Reserva {
   servicio: string;
   estado: 'ACTIVA' | 'CANCELADA';
 }
+
+export type ReservaCreate = Omit<Reserva, 'id'>;

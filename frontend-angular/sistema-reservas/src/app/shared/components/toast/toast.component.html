@@ -1,0 +1,8 @@
+@if (visible()) {
+  <div class="toast" role="status" aria-live="polite">
+    <span class="toast__message">{{ message() }}</span>
+    <button class="toast__close" type="button" (click)="dismiss.emit()">
+      Cerrar
+    </button>
+  </div>
+}
