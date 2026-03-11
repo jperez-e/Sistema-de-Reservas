@@ -1,0 +1,97 @@
+# Spring Boot Development Rules
+
+## General Rules
+- Always use Java 25 features and best practices for Spring Boot service development
+- Follow Spring Boot conventions and patterns
+- Use dependency injection properly
+- Implement proper exception handling
+- Use logging with SLF4J and Logback
+- Follow REST API best practices
+- Implement proper validation using Bean Validation
+- Use Spring Security for authentication and authorization when needed
+
+## Naming Conventions
+- All class names, method names, and attribute names must be in English
+- Use PascalCase for class names
+- Use camelCase for method names and attributes
+- Use UPPER_CASE for constants
+- Package names should be lowercase and follow reverse domain naming (com.reservas.sistema_reservas)
+
+## Documentation
+- Every public method must have updated Javadoc documentation
+- Include @param, @return, and @throws tags where applicable
+- Document the purpose and behavior of classes and methods
+- Keep documentation current with code changes
+
+## DTOs (Data Transfer Objects)
+- Use Java records for all DTO classes
+- Records provide immutable data structures with automatic equals, hashCode, and toString
+- Example: `public record UserDto(String name, String email) {}`
+- Use records for request/response objects in REST controllers
+
+## Project Structure
+```
+backend-springboot/
+├── sistema-reservas/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   │   └── com/
+│   │   │   │       └── reservas/
+│   │   │   │           └── sistema_reservas/
+│   │   │   │               ├── config/          # Configuration classes
+│   │   │   │               ├── controller/      # REST controllers
+│   │   │   │               ├── service/         # Business logic services
+│   │   │   │               ├── repository/      # Data access layer
+│   │   │   │               ├── model/           # Entity classes
+│   │   │   │               ├── dto/             # Data Transfer Objects (use records)
+│   │   │   │               ├── exception/       # Custom exceptions
+│   │   │   │               └── util/            # Utility classes
+│   │   │   └── resources/
+│   │   │       ├── application.properties      # Application configuration
+│   │   │       ├── static/                     # Static resources
+│   │   │       └── templates/                  # Template files
+│   │   └── test/
+│   │       └── java/
+│   │           └── com/
+│   │               └── reservas/
+│   │                   └── sistema_reservas/   # Test classes
+│   ├── pom.xml                                 # Maven configuration
+│   └── HELP.md                                 # Project documentation
+└── frontend-angular/
+    └── sistema-reservas/                       # Angular frontend
+```
+
+## Code Quality
+- Use meaningful variable and method names
+- Keep methods small and focused on single responsibility
+- Use interfaces for service contracts
+- Implement proper unit tests
+- Use Spring Boot Test for integration testing
+- Follow SOLID principles
+- Use design patterns appropriately (Factory, Builder, Strategy, etc.)
+
+## Database
+- Use JPA/Hibernate for data persistence
+- Create entity classes in the model package
+- Use repository interfaces extending JpaRepository
+- Implement proper relationships between entities
+- Use database migrations with Flyway or Liquibase if needed
+
+## Security
+- Implement authentication and authorization
+- Use JWT tokens for stateless authentication
+- Validate input data properly
+- Implement CORS configuration if needed
+- Use HTTPS in production
+
+## Performance
+- Use caching with Spring Cache when appropriate
+- Implement pagination for large datasets
+- Use asynchronous processing with @Async when needed
+- Monitor application performance
+- Use connection pooling for database connections
+
+## Always Apply
+This rule set should always be applied when working on the Spring Boot project.</content>
+<parameter name="filePath">e:\Sistema de Reservas\springboot.mdc
