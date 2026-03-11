@@ -27,4 +27,6 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
      * @return true si existe una reserva para esa fecha y hora, false en caso contrario
      */
     boolean existsByFechaAndHora(LocalDate fecha, LocalTime hora);
+
+    boolean existsByFechaAndHoraAndIdNot(LocalDate fecha, LocalTime hora, Long id);
 }

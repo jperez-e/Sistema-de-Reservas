@@ -1,68 +1,96 @@
 <section class="reserva-form">
   <header class="reserva-form__header">
-    <h2>Nueva reserva</h2>
+    <h2>
+      @if (isEditing()) {
+        Editar reserva
+      } @else {
+        Nueva reserva
+      }
+    </h2>
     <p>Planifica tu consultoría de software e infraestructura.</p>
   </header>
 
   <form [formGroup]="form" (ngSubmit)="submit()">
-    <label class="field">
-      <span>Nombre del cliente</span>
+    <div class="md-field">
       <input
         type="text"
         formControlName="nombreCliente"
-        placeholder="Nombre completo"
-        [class.field__input--invalid]="nombreCliente.invalid && (nombreCliente.touched || nombreCliente.dirty)" />
-    </label>
-    @if (nombreCliente.invalid && (nombreCliente.touched || nombreCliente.dirty)) {
-      <span class="field__error">El nombre es obligatorio.</span>
-    }
-
-    <div class="field-grid">
-      <label class="field">
-        <span>Fecha</span>
-        <input
-          type="date"
-          formControlName="fecha"
-          [class.field__input--invalid]="fecha.invalid && (fecha.touched || fecha.dirty)" />
-      </label>
-      @if (fecha.invalid && (fecha.touched || fecha.dirty)) {
-        <span class="field__error">La fecha es obligatoria.</span>
-      }
-
-      <label class="field">
-        <span>Hora</span>
-        <input
-          type="time"
-          formControlName="hora"
-          [class.field__input--invalid]="hora.invalid && (hora.touched || hora.dirty)" />
-      </label>
-      @if (hora.invalid && (hora.touched || hora.dirty)) {
-        <span class="field__error">La hora es obligatoria.</span>
+        placeholder=" "
+        id="nombreCliente"
+        required
+        [class.md-field__input--invalid]="nombreCliente.invalid && (nombreCliente.touched || nombreCliente.dirty)" />
+      <label for="nombreCliente">Nombre del cliente</label>
+      @if (nombreCliente.invalid && (nombreCliente.touched || nombreCliente.dirty)) {
+        <span class="md-field__error">El nombre es obligatorio.</span>
       }
     </div>
 
-    <label class="field">
-      <span>Servicio</span>
+    <div class="field-grid">
+      <div class="md-field">
+        <input
+          type="date"
+          formControlName="fecha"
+          placeholder=" "
+          id="fecha"
+          required
+          [class.md-field__input--invalid]="fecha.invalid && (fecha.touched || fecha.dirty)" />
+        <label for="fecha">Fecha</label>
+        @if (fecha.invalid && (fecha.touched || fecha.dirty)) {
+          <span class="md-field__error">La fecha es obligatoria.</span>
+        }
+      </div>
+
+      <div class="md-field">
+        <input
+          type="time"
+          formControlName="hora"
+          placeholder=" "
+          id="hora"
+          required
+          [class.md-field__input--invalid]="hora.invalid && (hora.touched || hora.dirty)" />
+        <label for="hora">Hora</label>
+        @if (hora.invalid && (hora.touched || hora.dirty)) {
+          <span class="md-field__error">La hora es obligatoria.</span>
+        }
+      </div>
+    </div>
+
+    <div class="md-field md-field--select">
       <select
         formControlName="servicio"
-        [class.field__input--invalid]="servicio.invalid && (servicio.touched || servicio.dirty)">
+        id="servicio"
+        required
+        [class.md-field__input--invalid]="servicio.invalid && (servicio.touched || servicio.dirty)">
         <option value="" disabled>Selecciona un servicio</option>
         @for (opcion of servicios(); track opcion) {
           <option [value]="opcion">{{ opcion }}</option>
         }
       </select>
-    </label>
-    @if (servicio.invalid && (servicio.touched || servicio.dirty)) {
-      <span class="field__error">El servicio es obligatorio.</span>
-    }
-
-    <button type="submit" class="primary-button" [disabled]="form.invalid || saving()">
-      @if (saving()) {
-        Guardando...
-      } @else {
-        Crear reserva
+      <label for="servicio">Servicio</label>
+      @if (servicio.invalid && (servicio.touched || servicio.dirty)) {
+        <span class="md-field__error">El servicio es obligatorio.</span>
       }
-    </button>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="primary-button" [disabled]="form.invalid || saving()">
+        @if (saving()) {
+          Guardando...
+        } @else {
+          @if (isEditing()) {
+            Guardar cambios
+          } @else {
+            Crear reserva
+          }
+        }
+      </button>
+
+      @if (isEditing()) {
+        <button type="button" class="ghost-button" (click)="cancelEditing()">
+          Cancelar edición
+        </button>
+      }
+    </div>
   </form>
 
   <app-toast

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, inject, input, output, signal } from '@angular/core';
 import { ReactiveFormsModule, Validators, FormBuilder } from '@angular/forms';
 import { finalize } from 'rxjs';
 
@@ -8,6 +8,7 @@ import { ToastComponent } from '../../../shared/components/toast/toast.component
 
 @Component({
   selector: 'app-reserva-form',
+  standalone: true,
   imports: [ReactiveFormsModule, ToastComponent],
   templateUrl: './reserva-form.component.html',
   styleUrl: './reserva-form.component.css',
@@ -17,11 +18,13 @@ export class ReservaFormComponent {
   private readonly reservaService = inject(ReservaService);
   private readonly formBuilder = inject(FormBuilder);
 
-  protected readonly created = output<Reserva>();
-  protected readonly saving = signal(false);
-  protected readonly errorMessage = signal('');
+  readonly reservaToEdit = input<Reserva | null>(null);
+  readonly saved = output<Reserva>();
+  readonly cancelEdit = output<void>();
+  readonly saving = signal(false);
+  readonly errorMessage = signal('');
 
-  protected readonly servicios = signal([
+  readonly servicios = signal([
     'Consultoría de software',
     'Arquitectura de soluciones cloud',
     'Automatización CI/CD',
@@ -29,21 +32,39 @@ export class ReservaFormComponent {
     'Auditoría de seguridad'
   ]);
 
-  protected readonly form = this.formBuilder.nonNullable.group({
+  readonly form = this.formBuilder.nonNullable.group({
     nombreCliente: ['', Validators.required],
     fecha: ['', Validators.required],
     hora: ['', Validators.required],
     servicio: ['', Validators.required]
   });
 
-  protected readonly nombreCliente = this.form.controls.nombreCliente;
-  protected readonly fecha = this.form.controls.fecha;
-  protected readonly hora = this.form.controls.hora;
-  protected readonly servicio = this.form.controls.servicio;
+  readonly nombreCliente = this.form.controls.nombreCliente;
+  readonly fecha = this.form.controls.fecha;
+  readonly hora = this.form.controls.hora;
+  readonly servicio = this.form.controls.servicio;
 
-  protected readonly showToast = computed(() => this.errorMessage().length > 0);
+  public readonly isEditing = computed(() => !!this.reservaToEdit());
+  public readonly showToast = computed(() => this.errorMessage().length > 0);
 
-  protected submit(): void {
+  constructor() {
+    effect(() => {
+      const reserva = this.reservaToEdit();
+      if (!reserva) {
+        this.resetForm();
+        return;
+      }
+
+      this.form.reset({
+        nombreCliente: reserva.nombreCliente,
+        fecha: reserva.fecha,
+        hora: reserva.hora,
+        servicio: reserva.servicio
+      });
+    });
+  }
+
+  public submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
       return;
@@ -56,18 +77,18 @@ export class ReservaFormComponent {
       estado: 'ACTIVA'
     };
 
+    const editingReserva = this.reservaToEdit();
+    const request$ = editingReserva
+      ? this.reservaService.updateReserva(editingReserva.id, payload)
+      : this.reservaService.createReserva(payload);
+
     this.saving.set(true);
-    this.reservaService.createReserva(payload).pipe(
+    request$.pipe(
       finalize(() => this.saving.set(false))
     ).subscribe({
       next: (reserva) => {
-        this.form.reset({
-          nombreCliente: '',
-          fecha: '',
-          hora: '',
-          servicio: ''
-        });
-        this.created.emit(reserva);
+        this.resetForm();
+        this.saved.emit(reserva);
       },
       error: (error: unknown) => {
         this.errorMessage.set(this.resolveErrorMessage(error));
@@ -75,8 +96,13 @@ export class ReservaFormComponent {
     });
   }
 
-  protected dismissToast(): void {
+  public dismissToast(): void {
     this.errorMessage.set('');
+  }
+
+  public cancelEditing(): void {
+    this.resetForm();
+    this.cancelEdit.emit();
   }
 
   private resolveErrorMessage(error: unknown): string {
@@ -95,5 +121,14 @@ export class ReservaFormComponent {
     }
 
     return 'No se pudo guardar la reserva.';
+  }
+
+  private resetForm(): void {
+    this.form.reset({
+      nombreCliente: '',
+      fecha: '',
+      hora: '',
+      servicio: ''
+    });
   }
 }

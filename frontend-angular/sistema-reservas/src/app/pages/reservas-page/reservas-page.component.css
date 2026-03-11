@@ -1,35 +1,68 @@
+:root {
+  --brand-900: #0f172a;
+  --brand-800: #1e293b;
+  --brand-700: #243b53;
+  --accent-500: #f97316;
+  --accent-200: #fed7aa;
+  --surface: #ffffff;
+  --surface-muted: #f8fafc;
+  --surface-strong: #eef2f6;
+  --text-strong: #0f172a;
+  --text-muted: #475569;
+  --success-bg: #dcfce7;
+  --success-text: #14532d;
+  --danger-bg: #fee2e2;
+  --danger-text: #991b1b;
+  --border: #d7dde5;
+  --shadow-soft: 0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
 .reservas-page {
-  padding: 24px;
+  min-height: 100vh;
+  padding: 32px clamp(20px, 4vw, 56px);
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+  background: radial-gradient(circle at top left, #fef3c7 0%, transparent 42%),
+    radial-gradient(circle at 20% 40%, #e2e8f0 0%, transparent 45%),
+    linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+  color: var(--text-strong);
 }
 
 .page-header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
+  gap: 16px;
 }
 
 .page-header h1 {
   margin: 0;
-  font-size: 28px;
+  font-size: clamp(28px, 3vw, 36px);
+  letter-spacing: -0.02em;
 }
 
 .refresh-button {
-  padding: 8px 16px;
-  border: 1px solid #1f3b5c;
-  background-color: #1f3b5c;
+  padding: 10px 18px;
+  border: 1px solid var(--brand-700);
+  background-color: var(--brand-700);
   color: #ffffff;
-  border-radius: 6px;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.refresh-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 16px rgba(15, 23, 42, 0.18);
 }
 
 .refresh-button:focus-visible,
 .cancel-button:focus-visible {
-  outline: 3px solid #ffb703;
-  outline-offset: 2px;
+  outline: 3px solid var(--accent-500);
+  outline-offset: 3px;
 }
 
 .refresh-button:disabled {
@@ -40,63 +73,107 @@
 .reservas-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: #ffffff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 12px;
+  background-color: var(--surface);
+  box-shadow: var(--shadow-soft);
+  border-radius: 16px;
   overflow: hidden;
 }
 
 .reservas-table th,
 .reservas-table td {
-  padding: 12px 16px;
+  padding: 14px 18px;
   text-align: left;
-  border-bottom: 1px solid #e1e5ea;
+  border-bottom: 1px solid var(--border);
 }
 
 .reservas-table th {
-  background-color: #f4f6f9;
-  font-weight: 600;
+  background-color: var(--surface-strong);
+  font-weight: 700;
+  color: var(--brand-900);
+}
+
+.reservas-table tbody tr:hover {
+  background-color: var(--surface-muted);
 }
 
 .status-pill {
   display: inline-flex;
   align-items: center;
-  padding: 4px 10px;
+  padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
-  font-weight: 600;
-  background-color: #d7f0ff;
-  color: #0a4c77;
+  font-weight: 700;
+  background-color: var(--success-bg);
+  color: var(--success-text);
 }
 
 .status-pill.cancelled {
-  background-color: #ffe0e0;
-  color: #8a1f1f;
+  background-color: var(--danger-bg);
+  color: var(--danger-text);
 }
 
 .cancel-button {
-  padding: 6px 12px;
-  border-radius: 6px;
-  border: 1px solid #b01c2c;
-  background-color: #b01c2c;
+  padding: 8px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--danger-text);
+  background-color: var(--danger-text);
   color: #ffffff;
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.cancel-button:hover:not(:disabled) {
+  transform: translateY(-1px);
 }
 
 .cancel-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-  border-color: #9a9a9a;
-  background-color: #9a9a9a;
+  border-color: #9ca3af;
+  background-color: #9ca3af;
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.edit-button,
+.delete-button {
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.edit-button {
+  background-color: #e0f2fe;
+  color: #075985;
+  border-color: #7dd3fc;
+}
+
+.delete-button {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+.edit-button:focus-visible,
+.delete-button:focus-visible {
+  outline: 3px solid var(--accent-500);
+  outline-offset: 2px;
 }
 
 .status {
   margin: 0;
-  color: #4a4a4a;
+  color: var(--text-muted);
 }
 
 .status.error {
-  color: #b01c2c;
+  color: var(--danger-text);
 }
 
 .status.empty {

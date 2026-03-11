@@ -40,6 +40,9 @@ public class ReservaService {
         if (reservaRepository.existsByFechaAndHora(reserva.getFecha(), reserva.getHora())) {
             throw new ReservaException("A reservation already exists for the given date and time.");
         }
+        if (reserva.getEstado() == null) {
+            reserva.setEstado(EstadoReserva.ACTIVA);
+        }
         return reservaRepository.save(reserva);
     }
 
@@ -67,5 +70,46 @@ public class ReservaService {
         }
         reserva.setEstado(EstadoReserva.CANCELADA);
         reservaRepository.save(reserva);
+    }
+
+    /**
+     * Updates an existing reservation by its ID.
+     * Throws ReservaException if the reservation is not found or if a conflicting
+     * reservation already exists for the same date and time.
+     *
+     * @param id the ID of the reservation to update
+     * @param reserva the new reservation data
+     * @return the updated reservation
+     */
+    public Reserva updateReserva(Long id, Reserva reserva) {
+        Reserva existing = reservaRepository.findById(id)
+                .orElseThrow(() -> new ReservaException("Reservation not found."));
+
+        if (reservaRepository.existsByFechaAndHoraAndIdNot(reserva.getFecha(), reserva.getHora(), id)) {
+            throw new ReservaException("A reservation already exists for the given date and time.");
+        }
+
+        existing.setNombreCliente(reserva.getNombreCliente());
+        existing.setFecha(reserva.getFecha());
+        existing.setHora(reserva.getHora());
+        existing.setServicio(reserva.getServicio());
+        if (reserva.getEstado() != null) {
+            existing.setEstado(reserva.getEstado());
+        }
+
+        return reservaRepository.save(existing);
+    }
+
+    /**
+     * Deletes a reservation by its ID.
+     * Throws ReservaException if the reservation is not found.
+     *
+     * @param id the ID of the reservation to delete
+     */
+    public void deleteReserva(Long id) {
+        if (!reservaRepository.existsById(id)) {
+            throw new ReservaException("Reservation not found.");
+        }
+        reservaRepository.deleteById(id);
     }
 }

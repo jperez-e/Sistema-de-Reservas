@@ -6,7 +6,11 @@
     </button>
   </header>
 
-  <app-reserva-form (created)="loadReservas()"></app-reserva-form>
+  <app-reserva-form
+    [reservaToEdit]="selectedReserva()"
+    (saved)="handleSaved()"
+    (cancelEdit)="clearEdit()">
+  </app-reserva-form>
 
   @if (loading()) {
     <p class="status" aria-live="polite">Cargando reservas...</p>
@@ -22,7 +26,6 @@
           <caption class="sr-only">Listado de reservas</caption>
           <thead>
             <tr>
-              <th>ID</th>
               <th>Cliente</th>
               <th>Fecha</th>
               <th>Hora</th>
@@ -34,7 +37,6 @@
           <tbody>
             @for (reserva of reservas(); track reserva.id) {
               <tr>
-                <td>{{ reserva.id }}</td>
                 <td>{{ reserva.nombreCliente }}</td>
                 <td>{{ reserva.fecha }}</td>
                 <td>{{ reserva.hora }}</td>
@@ -45,13 +47,28 @@
                   </span>
                 </td>
                 <td>
-                  <button
-                    type="button"
-                    class="cancel-button"
-                    (click)="cancelReserva(reserva)"
-                    [disabled]="reserva.estado === 'CANCELADA' || cancelingId() === reserva.id">
-                    Cancelar
-                  </button>
+                  <div class="action-buttons">
+                    <button
+                      type="button"
+                      class="cancel-button"
+                      (click)="cancelReserva(reserva)"
+                      [disabled]="reserva.estado === 'CANCELADA' || cancelingId() === reserva.id">
+                      Cancelar
+                    </button>
+                    <button
+                      type="button"
+                      class="edit-button"
+                      (click)="startEdit(reserva)">
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      class="delete-button"
+                      (click)="deleteReserva(reserva)"
+                      [disabled]="deletingId() === reserva.id">
+                      Eliminar
+                    </button>
+                  </div>
                 </td>
               </tr>
             }

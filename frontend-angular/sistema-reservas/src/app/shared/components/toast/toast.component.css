@@ -4,10 +4,11 @@
   justify-content: space-between;
   gap: 16px;
   padding: 12px 16px;
-  border-radius: 10px;
-  background-color: #ffe4e6;
+  border-radius: 12px;
+  background-color: #fee2e2;
   color: #7f1d1d;
-  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.12);
+  border: 1px solid #fecaca;
+  box-shadow: 0 16px 26px rgba(15, 23, 42, 0.18);
 }
 
 .toast__message {

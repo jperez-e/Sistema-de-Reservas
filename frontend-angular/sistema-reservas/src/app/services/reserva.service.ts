@@ -19,7 +19,15 @@ export class ReservaService {
     return this.http.post<Reserva>(this.apiUrl, reserva);
   }
 
+  updateReserva(id: number, reserva: ReservaCreate): Observable<Reserva> {
+    return this.http.put<Reserva>(`${this.apiUrl}/${id}`, reserva);
+  }
+
   cancelReserva(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}/cancelar`, {});
+    return this.http.patch<void>(`${this.apiUrl}/${id}/cancelar`, {});
+  }
+
+  deleteReserva(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
