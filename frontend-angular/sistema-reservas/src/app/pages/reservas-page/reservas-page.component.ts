@@ -85,6 +85,11 @@ export class ReservasPageComponent {
       return;
     }
 
+    const confirmDelete = confirm(`¿Eliminar la reserva de ${reserva.nombreCliente}? Esta acción no se puede deshacer.`);
+    if (!confirmDelete) {
+      return;
+    }
+
     this.deletingId.set(reserva.id);
     this.reservaService.deleteReserva(reserva.id).pipe(
       finalize(() => this.deletingId.set(null))

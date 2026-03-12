@@ -31,7 +31,9 @@
               <th>Hora</th>
               <th>Servicio</th>
               <th>Estado</th>
-              <th>Acciones</th>
+              <th class="actions-header">
+                <span class="actions-title">Acciones</span>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -46,27 +48,30 @@
                     {{ reserva.estado }}
                   </span>
                 </td>
-                <td>
+                <td class="actions-cell">
                   <div class="action-buttons">
                     <button
                       type="button"
                       class="cancel-button"
                       (click)="cancelReserva(reserva)"
                       [disabled]="reserva.estado === 'CANCELADA' || cancelingId() === reserva.id">
+                      <span aria-hidden="true">⟡</span>
                       Cancelar
                     </button>
                     <button
                       type="button"
                       class="edit-button"
                       (click)="startEdit(reserva)">
-                      Editar
+                      <span class="edit-label">EDITAR</span>
+                      <span class="edit-icon" aria-hidden="true"></span>
                     </button>
                     <button
                       type="button"
                       class="delete-button"
                       (click)="deleteReserva(reserva)"
                       [disabled]="deletingId() === reserva.id">
-                      Eliminar
+                      <span class="delete-icon" aria-hidden="true"></span>
+                      <span class="delete-label">ELIMINAR</span>
                     </button>
                   </div>
                 </td>

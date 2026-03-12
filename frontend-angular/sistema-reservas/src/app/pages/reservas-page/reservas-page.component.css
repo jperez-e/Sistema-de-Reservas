@@ -73,6 +73,7 @@
 .reservas-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   background-color: var(--surface);
   box-shadow: var(--shadow-soft);
   border-radius: 16px;
@@ -84,6 +85,8 @@
   padding: 14px 18px;
   text-align: left;
   border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .reservas-table th {
@@ -134,10 +137,34 @@
   background-color: #9ca3af;
 }
 
+.actions-cell {
+  width: 320px;
+  white-space: nowrap;
+  text-align: center;
+  padding-left: 0;
+}
+
+.actions-header {
+  width: 320px;
+  text-align: center;
+  padding-left: 0;
+}
+
+.actions-title {
+  width: 260px;     /* ancho del título */
+  margin-left: 75px;   /* posición horizontal del título */
+  text-align: center;
+}
+
+
 .action-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  flex-wrap: nowrap;
+  gap: 12px;          /* este valor separa los botones */
+  align-items: center;
+  justify-content: space-between;
+  width: 260px;
+  margin-left: -129px;
 }
 
 .edit-button,
@@ -147,18 +174,132 @@
   font-weight: 600;
   cursor: pointer;
   border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .edit-button {
-  background-color: #e0f2fe;
-  color: #075985;
-  border-color: #7dd3fc;
+  padding: 6px 10px 6px 18px;
+  gap: 12px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #6d5ef5 0%, #3e3ac8 100%);
+  color: #ffffff;
+  border: 2px solid #5047e0;
+  box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.35),
+    0 10px 18px rgba(62, 58, 200, 0.28);
+}
+
+.edit-label {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+}
+
+.edit-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff 0%, #e2e8f0 60%, #cbd5f5 100%);
+  position: relative;
+  box-shadow: inset 0 2px 3px rgba(0, 0, 0, 0.15);
+}
+
+.edit-icon::before {
+  content: '';
+  position: absolute;
+  width: 16px;
+  height: 5px;
+  background: linear-gradient(90deg, #fbbf24, #f97316);
+  border-radius: 3px;
+  top: 15px;
+  left: 9px;
+  transform: rotate(-25deg);
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.edit-icon::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 6px solid #cbd5e1;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  top: 12px;
+  left: 18px;
+  transform: rotate(-25deg);
 }
 
 .delete-button {
-  background-color: #fee2e2;
-  color: #991b1b;
-  border-color: #fecaca;
+  height: 48px;
+  padding: 0 16px 0 10px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 30%, #ff6b6b 0%, #d62828 55%, #8c1515 100%);
+  border: 3px solid #b91c1c;
+  box-shadow: inset 0 4px 6px rgba(255, 255, 255, 0.25),
+    0 10px 16px rgba(140, 21, 21, 0.35);
+  justify-content: center;
+  gap: 10px;
+}
+
+.delete-icon {
+  width: 22px;
+  height: 22px;
+  position: relative;
+}
+
+.delete-icon::before {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: 6px;
+  width: 14px;
+  height: 12px;
+  border: 2px solid #ffffff;
+  border-top: 3px solid #ffffff;
+  border-radius: 2px;
+}
+
+.delete-icon::after {
+  content: '';
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 10px;
+  height: 4px;
+  border: 2px solid #ffffff;
+  border-bottom: none;
+  border-radius: 2px 2px 0 0;
+}
+
+.delete-label {
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  color: #ffffff;
+}
+
+.cancel-button,
+.edit-button,
+.delete-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cancel-button:hover:not(:disabled),
+.edit-button:hover:not(:disabled),
+.delete-button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.cancel-button:active:not(:disabled),
+.edit-button:active:not(:disabled),
+.delete-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: none;
 }
 
 .edit-button:focus-visible,

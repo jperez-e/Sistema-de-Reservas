@@ -3,7 +3,6 @@ package com.reservas.sistema_reservas.controller;
 import com.reservas.sistema_reservas.exception.ReservaException;
 import com.reservas.sistema_reservas.model.Reserva;
 import com.reservas.sistema_reservas.service.ReservaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,6 @@ public class ReservaController {
      *
      * @param reservaService the service for reservation business logic
      */
-    @Autowired
     public ReservaController(ReservaService reservaService) {
         this.reservaService = reservaService;
     }

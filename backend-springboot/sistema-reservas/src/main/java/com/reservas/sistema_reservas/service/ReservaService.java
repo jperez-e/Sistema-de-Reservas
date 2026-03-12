@@ -4,7 +4,6 @@ import com.reservas.sistema_reservas.exception.ReservaException;
 import com.reservas.sistema_reservas.model.EstadoReserva;
 import com.reservas.sistema_reservas.model.Reserva;
 import com.reservas.sistema_reservas.repository.ReservaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +22,6 @@ public class ReservaService {
      *
      * @param reservaRepository the repository for Reserva entities
      */
-    @Autowired
     public ReservaService(ReservaRepository reservaRepository) {
         this.reservaRepository = reservaRepository;
     }
